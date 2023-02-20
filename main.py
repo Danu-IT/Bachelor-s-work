@@ -2,11 +2,11 @@ import random
 import realistion
 import animate
 
-mu_s = 10                 # коэффициентом рассеяния
+mu_s = 1                  # коэффициентом рассеяния
 mu_a = 0.1                # коэффициентом поглощения
-size = 10                 # граница
+size = 50                 # граница
 g = 1                     # параметр анизатропии
-photons = 3             # фотоны
+photons = 10              # фотоны
 
 f = open('outputs/current.txt', 'w')
 

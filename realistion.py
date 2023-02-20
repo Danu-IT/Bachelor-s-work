@@ -36,7 +36,7 @@ def changing_the_direction_of_movement(dir, ϕ, θ):
         z = - math.sin(θ) * math.cos(ϕ) * math.sqrt(1 -
                                                     math.pow(dir['Yz'], 2)) + (dir['Yz'] * math.cos(θ))
 
-    return [abs(x), abs(y), abs(z)]
+    return [abs(x), abs(y), z]
 
 
 def photon_weight(p, mu_s, mu_a):
