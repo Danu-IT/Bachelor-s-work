@@ -2,11 +2,11 @@ import random
 import realistion
 import animate
 
-mu_s = 10                 # коэффициентом рассеяния
+mu_s = 10                # коэффициентом рассеяния
 mu_a = 0.1                # коэффициентом поглощения
-size = 10                 # граница
-g = 1                     # параметр анизатропии
-photons = 3             # фотоны
+size = 100                 # граница
+g = 0.1                    # параметр анизатропии
+photons = 10         # фотоны
 
 f = open('outputs/current.txt', 'w')
 
@@ -20,13 +20,15 @@ for i in range(photons):
     while (0 <= current['x'] < size and 0 <= current['y'] < size and 0 <= current['z'] < size):
         # Рандомное число
         ξ = random.random()
+        # print(ξ)
         # Вычисление углов ϕ и θ
-        [ϕ, θ] = realistion.corners(ξ, g)
+        [fi, teta] = realistion.corners(ξ, g)
+        # print(teta)
         # Вычисление свободного пробега l
         l = realistion.free_run_l(ξ, mu_s, mu_a)
-
+        # Изменение направления движения
         [x, y, z] = realistion.changing_the_direction_of_movement(
-            direction_of_movement, ϕ, θ)
+            direction_of_movement, fi, teta)
 
         direction_of_movement['Yx'] = x
         direction_of_movement['Yy'] = y
@@ -39,9 +41,9 @@ for i in range(photons):
 
         f.write(
             f"i:{current['i']}  x:{current['x']}  y:{current['y']}  z:{current['z']}\n")
-
-        p = realistion.photon_weight(p, mu_s, mu_a)
-        if (p < 0.000001):
+        p = realistion.photon_weight(p, mu_s, mu_a, l)
+        print('p', p, 'i', i)
+        if (p < 0.0001):
             print('Фотон поглощен')
             break
 
