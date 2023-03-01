@@ -8,39 +8,39 @@ def free_run_l(random, mu_s, mu_a):
 
 
 def corners(random, g):
-    pi = math.pi
-    ϕ = (pi * 2) * random
+    fi = (math.pi * 2) * random
     if (g == 0):
-        θ = (2 * random) - 1
+        teta = (2 * random) - 1
     elif (g > 0):
-        θ = 1 / (2 * g) * (1 + math.pow(g, 2) -
-                           math.pow((1 - g * g) / 1 - g + 2 * g * random, 2))
-    return [ϕ, math.cos(θ)]
+        teta = 1 / (2 * g) * (1 + math.pow(g, 2) -
+                              math.pow((1 - g * g) / 1 - g + 2 * g * random, 2))
+    return [fi, teta]
 
 
-def changing_the_direction_of_movement(dir, ϕ, θ):
+def changing_the_direction_of_movement(dir, fi, teta):
     if abs(dir['Yz']) > 0.9999:
-        x = math.cos(ϕ) * math.sin(θ)
-        y = math.sin(ϕ) * math.sin(θ)
-        z = np.sign(dir['Yz']) * math.cos(θ)
+        x = math.cos(fi) * math.sin(teta)
+        y = math.sin(fi) * math.sin(teta)
+        z = np.sign(dir['Yz']) * math.cos(teta)
 
     else:
-        sqrt = math.sin(θ) / math.sqrt(1 - math.pow(dir['Yz'], 2))
+        delsqrt = math.sin(teta) / math.sqrt(1 - math.pow(dir['Yz'], 2))
 
-        x = sqrt * (dir['Yx'] * dir['Yz'] * math.cos(ϕ) - dir['Yy']
-                    * math.sin(ϕ)) + (dir['Yx'] * math.cos(θ))
+        x = delsqrt * (dir['Yx'] * dir['Yz'] * math.cos(fi) - dir['Yy']
+                       * math.sin(fi)) + (dir['Yx'] * math.cos(teta))
 
-        y = sqrt * (dir['Yy'] * dir['Yz'] * math.cos(ϕ) +
-                    dir['Yx'] * math.sin(ϕ)) + dir['Yy'] * math.cos(θ)
+        y = delsqrt * (dir['Yy'] * dir['Yz'] * math.cos(fi) +
+                       dir['Yx'] * math.sin(fi)) + dir['Yy'] * math.cos(teta)
 
-        z = - math.sin(θ) * math.cos(ϕ) * math.sqrt(1 -
-                                                    math.pow(dir['Yz'], 2)) + (dir['Yz'] * math.cos(θ))
+        z = - math.sin(teta) * math.cos(fi) * math.sqrt(1 -
+                                                        math.pow(dir['Yz'], 2)) + (dir['Yz'] * math.cos(teta))
 
     return [abs(x), abs(y), z]
 
 
-def photon_weight(p, mu_s, mu_a):
-    return p * mu_s / (mu_s + mu_a)
+def photon_weight(p, mu_s, mu_a, l):
+    # return p * mu_a / (mu_s + mu_a)
+    return p * math.exp(-mu_a * l)
 
 
 def random_color():
@@ -52,13 +52,13 @@ def random_color():
         random_color()
     return ('{:X}{:X}{:X}').format(r, g, b)
 
-    # def snells_low(new_ai, new_at, new_n1, new_n2):
-    #     self.ai = new_ai    # theta_1
-    #     self.at = new_at    # theta_2
-    #     self.n1 = new_n1    # n1
-    #     self.n2 = new_n2    # n2
-    #     new_ai_rad = np.radians(new_ai)
-    #     new_at_rad = np.arcsin(new_n1 / new_n2 * np.sin(new_ai_rad))
-    #     new_at = np.degrees(new_at_rad)
-    #     self.at = new_at
-    #     return self.at
+# def snells_low(new_ai, new_at, new_n1, new_n2):
+#     self.ai = new_ai    # theta_1
+#     self.at = new_at    # theta_2
+#     self.n1 = new_n1    # n1
+#     self.n2 = new_n2    # n2
+#     new_ai_rad = np.radians(new_ai)
+#     new_at_rad = np.arcsin(new_n1 / new_n2 * np.sin(new_ai_rad))
+#     new_at = np.degrees(new_at_rad)
+#     self.at = new_at
+#     return self.at

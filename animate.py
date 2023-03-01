@@ -35,6 +35,7 @@ def visualize():
 
     for i in range(len(list_current_I)):
         if int(list_current_I[i]) >= itteration and itteration + 1 != int(list_current_I[-1]):
+            print(list_current_I[i])
             beginning = list_current_I.index(itteration + 1)
             end = list_current_I.index(itteration + 2)
 
@@ -61,6 +62,7 @@ def visualize():
     for i in range(len(countlist)):
         countlist[i] = 'photon ' + str(countlist[i] + 1)
 
-    plt.legend(tuple(photonlist), tuple(countlist), loc='upper right')
+    plt.legend(tuple(photonlist), tuple(countlist),
+               loc='upper center', ncols=8, fontsize='xx-small')
 
     plt.show()
