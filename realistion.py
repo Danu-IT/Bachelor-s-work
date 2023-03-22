@@ -4,7 +4,7 @@ from random import randint
 
 
 def free_run_l(random, mu_s, mu_a):
-    return -math.log(1 - random) * 1 / (mu_s + mu_a)
+    return -math.log(1 - random) * (1 / (mu_s + mu_a))
 
 
 def corners(random, g):
@@ -13,8 +13,8 @@ def corners(random, g):
         teta = (2 * random) - 1
     elif (g > 0):
         teta = 1 / (2 * g) * (1 + math.pow(g, 2) -
-                              math.pow((1 - g * g) / 1 - g + 2 * g * random, 2))
-    return [fi, teta]
+                              math.pow((1 - math.pow(g, 2)) / (1 - g + 2 * g * random), 2))
+    return [fi, math.cos(teta)]
 
 
 def changing_the_direction_of_movement(dir, fi, teta):
@@ -24,7 +24,7 @@ def changing_the_direction_of_movement(dir, fi, teta):
         z = np.sign(dir['Yz']) * math.cos(teta)
 
     else:
-        delsqrt = math.sin(teta) / math.sqrt(1 - math.pow(dir['Yz'], 2))
+        delsqrt = (math.sin(teta)) / (math.sqrt(1 - math.pow(dir['Yz'], 2)))
 
         x = delsqrt * (dir['Yx'] * dir['Yz'] * math.cos(fi) - dir['Yy']
                        * math.sin(fi)) + (dir['Yx'] * math.cos(teta))
@@ -35,12 +35,11 @@ def changing_the_direction_of_movement(dir, fi, teta):
         z = - math.sin(teta) * math.cos(fi) * math.sqrt(1 -
                                                         math.pow(dir['Yz'], 2)) + (dir['Yz'] * math.cos(teta))
 
-    return [abs(x), abs(y), z]
+    return [x, y, z]
 
 
 def photon_weight(p, mu_s, mu_a, l):
-    # return p * mu_a / (mu_s + mu_a)
-    return p * math.exp(-mu_a * l)
+    return p * (mu_s / (mu_s + mu_a))
 
 
 def random_color():
