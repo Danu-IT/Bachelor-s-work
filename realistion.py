@@ -1,20 +1,21 @@
 import math
 import numpy as np
 from random import randint
+import random
 
 
-def free_run_l(random, mu_s, mu_a):
-    return -math.log(1 - random) * (1 / (mu_s + mu_a))
+def free_run_l(mu_s, mu_a):
+    return -math.log(1 - random.random()) * (1 / (mu_s + mu_a))
 
 
-def corners(random, g):
-    fi = (math.pi * 2) * random
+def corners(g):
+    fi = (math.pi * 2) * random.random()
     if (g == 0):
-        teta = (2 * random) - 1
+        teta = (2 * random.random()) - 1
     elif (g > 0):
         teta = 1 / (2 * g) * (1 + math.pow(g, 2) -
-                              math.pow((1 - math.pow(g, 2)) / (1 - g + 2 * g * random), 2))
-    return [fi, math.cos(teta)]
+                              math.pow((1 - math.pow(g, 2)) / (1 - g + 2 * g * random.random()), 2))
+    return [fi, math.acos(teta)]
 
 
 def changing_the_direction_of_movement(dir, fi, teta):
@@ -30,7 +31,7 @@ def changing_the_direction_of_movement(dir, fi, teta):
                        * math.sin(fi)) + (dir['Yx'] * math.cos(teta))
 
         y = delsqrt * (dir['Yy'] * dir['Yz'] * math.cos(fi) +
-                       dir['Yx'] * math.sin(fi)) + dir['Yy'] * math.cos(teta)
+                       dir['Yx'] * math.sin(fi)) + (dir['Yy'] * math.cos(teta))
 
         z = - math.sin(teta) * math.cos(fi) * math.sqrt(1 -
                                                         math.pow(dir['Yz'], 2)) + (dir['Yz'] * math.cos(teta))
@@ -50,6 +51,11 @@ def random_color():
     if len(str) < 6:
         random_color()
     return ('{:X}{:X}{:X}').format(r, g, b)
+
+
+def distanceBetweenPoints(current):
+    return math.sqrt(math.pow((current['x'] - 0), 2) + math.pow((current['y'] - 0), 2))
+
 
 # def snells_low(new_ai, new_at, new_n1, new_n2):
 #     self.ai = new_ai    # theta_1

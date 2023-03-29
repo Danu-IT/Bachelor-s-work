@@ -7,7 +7,12 @@ import re
 style.use('ggplot')
 
 
-def visualize():
+def diagramm(arr):
+    plt.bar(list(range(len(arr))), arr)
+    plt.show()
+
+
+def graphOfPointsOfDifferentColors(view):
     list_current_X = []
     list_current_Y = []
     list_current_Z = []
@@ -42,13 +47,18 @@ def visualize():
             while not match:
                 curent_color = '#' + realistion.random_color()
                 match = re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', curent_color)
+            if (view == 'line'):
+                arr[itteration] = ax.plot3D(list_current_X[beginning:end], list_current_Y[beginning:end],
+                                            list_current_Z[beginning:end], color=curent_color, marker=',')
+            else:
+                arr[itteration] = ax.scatter(list_current_X[beginning:end], list_current_Y[beginning:end],
+                                             list_current_Z[beginning:end], color=curent_color)
 
-            arr[itteration] = ax.scatter(list_current_X[beginning:end], list_current_Y[beginning:end],
-                                         list_current_Z[beginning:end], color=curent_color, marker='o')
             itteration += 1
-
     ax.set_xlabel('X Label')
     ax.set_ylabel('Y Label')
+    ax.set_zlabel('Z Label')
+
     plt.title("simple 3D current photon coordinates")
 
     photonlist = []
@@ -57,7 +67,6 @@ def visualize():
     for key, value in arr.items():
         photonlist.append(value)
         countlist.append(key)
-
     for i in range(len(countlist)):
         countlist[i] = 'photon ' + str(countlist[i] + 1)
 
