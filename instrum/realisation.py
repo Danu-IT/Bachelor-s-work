@@ -57,6 +57,24 @@ def distanceBetweenPoints(current):
     return math.sqrt(math.pow((current['x'] - 0), 2) + math.pow((current['y'] - 0), 2))
 
 
+def createDict(lst):
+    rez = {}
+
+    for el in lst:
+        if rez.get(el, None):
+            rez[el] += 1
+        else:
+            rez[el] = 1
+
+    return rez
+
+
+def calcSquare(dict):
+    for i in list(dict):
+        sq = math.floor(math.pi * (math.pow(dict[i], 2)))
+        dict[i] = sq / dict[i]
+    return dict
+
 # def snells_low(new_ai, new_at, new_n1, new_n2):
 #     self.ai = new_ai    # theta_1
 #     self.at = new_at    # theta_2

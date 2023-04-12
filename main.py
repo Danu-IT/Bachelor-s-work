@@ -1,12 +1,16 @@
 import random
-import realistion
-import animate
+import instrum.realisation as realisation
+import instrum.animate as animate
+import instrum.vox as vox
+import instrum.animation as animation
+
 
 mu_s = 10                   # коэффициентом рассеяния
 mu_a = 0.1                  # коэффициентом поглощения
-size = 100                  # граница
+size = 10                 # граница
 g = 0.8                     # параметр анизатропии
-photons = 100              # фотоны
+photons = 100                # фотоны
+array_current = []
 
 f = open('outputs/current.txt', 'w')
 
@@ -16,7 +20,6 @@ right = (size / 2)
 distances = []
 
 for i in range(photons):
-    array_current = []
     # Действительные координаты
     current = {'x': 0, 'y': 0, 'z': 0}
     # Изменение направления фотона
@@ -25,12 +28,13 @@ for i in range(photons):
 
     while (left <= current['x'] < right and left <= current['y'] < right and -1 <= current['z'] < 10):
         # Вычисление углов ϕ и θ
-        [fi, teta] = realistion.corners(g)
+        [fi, teta] = realisation.corners(g)
         # Вычисление свободного пробега l
-        l = realistion.free_run_l(mu_s, mu_a)
+        l = realisation.free_run_l(mu_s, mu_a)
         # Изменение направления движения
-        [x, y, z] = realistion.changing_the_direction_of_movement(
+        [x, y, z] = realisation.changing_the_direction_of_movement(
             direction_of_movement, fi, teta)
+
         direction_of_movement['Yx'] = x
         direction_of_movement['Yy'] = y
         direction_of_movement['Yz'] = z
@@ -39,26 +43,32 @@ for i in range(photons):
         current['y'] = current['y'] + (l * direction_of_movement['Yy'])
         current['z'] = current['z'] + (l * direction_of_movement['Yz'])
         current['i'] = i + 1
+
         if (i <= 50):
             f.write(
                 f"i:{current['i']}  x:{current['x']}  y:{current['y']}  z:{current['z']}\n")
 
-        p = realistion.photon_weight(p, mu_s, mu_a, l)
-        if (p < 0.0001):
-            print('Фотон поглощен')
+        w = realisation.photon_weight(p, mu_s, mu_a, l)
+        if (w < 0.0001):
+            # print('Фотон поглощен')
             break
         if (current['z'] < 0):
-            # print('z -', current['z'], 'x -',
-            #       current['x'], 'y -', current['y'])
-            # if (array_current):
-            #     print(array_current[-1])
-            answer = realistion.distanceBetweenPoints(current)
+            answer = round(realisation.distanceBetweenPoints(current), 1)
             distances.append(answer)
             break
 
         array_current.append(
-            {'x': current['x'], 'y': current['y'], 'z': current['z']})
+            {'x': current['x'], 'y': current['y'], 'z': current['z'], 'w': w})
 
+# График передвижения фотона в среде по точкам
 animate.graphOfPointsOfDifferentColors('point')
+# График передвижения фотона в среде линиями
 animate.graphOfPointsOfDifferentColors('line')
-animate.diagramm(distances)
+
+rez = realisation.createDict(distances)
+animate.diagramm(rez, 0.1, 'count')
+
+seq = realisation.calcSquare(rez)
+animate.diagramm(seq, 0.1, 'square')
+
+# animate.voxVisualizer(array_current)
