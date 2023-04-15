@@ -79,7 +79,7 @@ def graphOfPointsOfDifferentColors(view):
     plt.show()
 
 
-def voxVisualizer(array_current):
+def voxVisualizerCub(array_current):
     nn = 11
     size = 20
 
@@ -130,9 +130,9 @@ def voxVisualizer(array_current):
 
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
-    ax.set_xlim(-5, 10)
-    ax.set_ylim(-5, 10)
-    ax.set_zlim(-5, 10)
+    # ax.set_xlim(-5, 10)
+    # ax.set_ylim(-5, 10)
+    # ax.set_zlim(-5, 10)
     ax.voxels(x, y, z, filled_2, facecolors=fcolors_2, edgecolors=ecolors_2)
 
     plt.show()

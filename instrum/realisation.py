@@ -39,7 +39,7 @@ def changing_the_direction_of_movement(dir, fi, teta):
     return [x, y, z]
 
 
-def photon_weight(p, mu_s, mu_a, l):
+def photon_weight(p, mu_s, mu_a):
     return p * (mu_s / (mu_s + mu_a))
 
 
@@ -80,8 +80,3 @@ def calcSquare(dict):
 #     self.at = new_at    # theta_2
 #     self.n1 = new_n1    # n1
 #     self.n2 = new_n2    # n2
-#     new_ai_rad = np.radians(new_ai)
-#     new_at_rad = np.arcsin(new_n1 / new_n2 * np.sin(new_ai_rad))
-#     new_at = np.degrees(new_at_rad)
-#     self.at = new_at
-#     return self.at
