@@ -8,12 +8,12 @@ import math
 
 mu_s = 10                   # коэффициентом рассеяния
 mu_a = 0.15                 # коэффициентом поглощения
-g = 1                     # параметр анизатропии
+g = 0.8                     # параметр анизатропии
+photons = 1000000
+size = 100                   # граница          # фотоны
 
-size = 100                   # граница
-photons = 2              # фотоны
 array_current = []          # массив координат
-# slice =
+slice = 5
 
 f = open('outputs/current.txt', 'w')
 
@@ -59,9 +59,10 @@ for i in range(photons):
             answer = round(realisation.distanceBetweenPoints(current), 1)
             distances.append(answer)
             break
+        if (math.floor(current['z']) == slice):
+            array_current.append(
+                {'x': math.floor(current['x']), 'y': math.floor(current['y']), 'z': math.floor(current['z']), 'w': w})
 
-        array_current.append(
-            {'x': math.floor(current['x']), 'y': math.floor(current['y']), 'z': math.floor(current['z']), 'w': w})
 
 # График передвижения фотона в среде по точкам
 # animate.graphOfPointsOfDifferentColors('point')
@@ -74,5 +75,5 @@ for i in range(photons):
 # seq = realisation.calcSquare(rez)
 # animate.diagramm(seq, 0.1, 'square')
 
-# animate.voxVisualizerCub(array_current)
-vox.voxVisualizer(size, array_current)
+# vox.voxVisualizerCub(size, array_current)
+vox.voxVisualizer(size, array_current, slice)

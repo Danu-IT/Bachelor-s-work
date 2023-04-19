@@ -74,9 +74,3 @@ def calcSquare(dict):
         sq = math.floor(math.pi * (math.pow(dict[i], 2)))
         dict[i] = sq / dict[i]
     return dict
-
-# def snells_low(new_ai, new_at, new_n1, new_n2):
-#     self.ai = new_ai    # theta_1
-#     self.at = new_at    # theta_2
-#     self.n1 = new_n1    # n1
-#     self.n2 = new_n2    # n2
