@@ -51,12 +51,12 @@ def voxCreate(array_current, array_voxel):
     return array_voxel
 
 
-def voxVisualizer(size, array_current, slice):
-    viridis = cm.get_cmap('viridis', 12)
-    array_voxel = twoDimensionalSystem(size, slice)
-    res = voxCreate(array_current, array_voxel)
+def voxVisualizer(maks, array_current):
+    # viridis = cm.get_cmap('viridis', 12)
+    # array_voxel = twoDimensionalSystem(size, slice)
+    # res = voxCreate(array_current, array_voxel)
 
-    [cross_section, maks] = sliceArray(size, res)
+    # [cross_section, maks] = sliceArray(size, res)
 
     viridis = cm.get_cmap('viridis', 256)
     newcolors = viridis(np.linspace(0, 1, 256))
@@ -70,7 +70,7 @@ def voxVisualizer(size, array_current, slice):
         helper function to plot two colormaps
         """
         np.random.seed(19680801)
-        data = cross_section
+        data = array_current
         fig, axs = plt.subplots(1, 2, figsize=(18, 9), constrained_layout=True)
         for [ax, cmap] in zip(axs, cms):
             psm = ax.pcolormesh(

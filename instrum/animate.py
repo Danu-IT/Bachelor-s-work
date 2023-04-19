@@ -8,8 +8,11 @@ import re
 style.use('ggplot')
 
 
-def diagramm(dict, width, nameY):
-    plt.bar(list(dict.keys()), list(dict.values()), width=width)
+def diagramm(arr, width, nameY):
+    key = []
+    for i in range(len(arr)):
+        key.append((i * 10) / 100)
+    plt.bar(key, arr, width=width)
     plt.ylabel(nameY)
     plt.xlabel('distance')
     plt.show()

@@ -57,20 +57,9 @@ def distanceBetweenPoints(current):
     return math.sqrt(math.pow((current['x'] - 0), 2) + math.pow((current['y'] - 0), 2))
 
 
-def createDict(lst):
-    rez = {}
-
-    for el in lst:
-        if rez.get(el, None):
-            rez[el] += 1
-        else:
-            rez[el] = 1
-
-    return rez
-
-
-def calcSquare(dict):
-    for i in list(dict):
-        sq = math.floor(math.pi * (math.pow(dict[i], 2)))
-        dict[i] = sq / dict[i]
-    return dict
+def calcSquare(arr):
+    sq = []
+    for i in list(arr):
+        sq_i = math.pi * math.pow((10 / len(arr)), 2) * ((2 * i) - 1)
+        sq.append(sq_i)
+    return sq
