@@ -12,6 +12,7 @@ def diagramm(arr, width, nameY):
     key = []
     for i in range(len(arr)):
         key.append((i * 10) / 100)
+
     plt.bar(key, arr, width=width)
     plt.ylabel(nameY)
     plt.xlabel('distance')

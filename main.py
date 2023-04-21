@@ -1,4 +1,3 @@
-import random
 import instrum.realisation as realisation
 import instrum.animate as animate
 import instrum.vox as vox
@@ -8,26 +7,33 @@ import math
 
 mu_s = 10                   # коэффициентом рассеяния
 mu_a = 0.15                 # коэффициентом поглощения
-g = 0.8                     # параметр анизатропии
-photons = 1000
-size = 100                   # граница          # фотоны
+g = 0                     # параметр анизатропии
+photons = 100000              # фотоны
+size = 10                  # граница
+left = - (size / 2)
+right = (size / 2)
+x_max = 10
 
 array_current = []          # массив координат
 slice = 5
 sliceThinkness = 0.5
-f = open('outputs/current.txt', 'w')
-
-left = - (size / 2)
-right = (size / 2)
-
 a = 100
-mas = [0] * a
-maks = 0
+
+masY = [0] * a
+maksY = 0
 for i in range(a):
-    mas[i] = [0] * (a * 2)
-# arr = []
-# for i in range(100):
-#     arr.append(0)
+    masY[i] = [0] * (a * 2)
+
+masZ = [0] * a
+maksZ = 0
+for i in range(a):
+    masZ[i] = [0] * (a * 2)
+
+w_arr = []
+for i in range(100):
+    w_arr.append(0)
+
+f = open('outputs/current.txt', 'w')
 
 for i in range(photons):
     # Действительные координаты
@@ -54,12 +60,19 @@ for i in range(photons):
         current['z'] = current['z'] + (l * direction_of_movement['Yz'])
         current['i'] = i + 1
 
-        if (current['y'] > -sliceThinkness and current['y'] < sliceThinkness and abs(current['x']) < 10 and abs(current['z']) < 10 and (current['z']) > 0):
-            indeks1 = math.floor(((current['x']-10) / 10) * 100)
-            indeks2 = math.floor((current['z'] / 10) * 100)
-            mas[indeks2][indeks1] += w
-            if (maks < mas[indeks2][indeks1]):
-                maks = mas[indeks2][indeks1]
+        if (current['y'] > -sliceThinkness and current['y'] < sliceThinkness and abs(current['x']) < x_max and abs(current['z']) < x_max and (current['z']) > 0):
+            indeks1 = math.floor(((current['x'] - 10) / x_max) * 100)
+            indeks2 = math.floor((current['z'] / x_max) * 100)
+            masY[indeks2][indeks1] += w
+            if (maksY < masY[indeks2][indeks1]):
+                maksY = masY[indeks2][indeks1]
+
+        if (current['z'] > -sliceThinkness and current['z'] < sliceThinkness and abs(current['x']) < x_max and abs(current['y']) < x_max):
+            indeks1 = math.floor(((current['x'] - 10) / x_max) * 100)
+            indeks2 = math.floor(((current['y'] - 10) / x_max) * 50)
+            masZ[indeks2][indeks1] += w
+            if (maksZ < masZ[indeks2][indeks1]):
+                maksZ = masZ[indeks2][indeks1]
 
         if (i <= 50):
             f.write(
@@ -72,22 +85,22 @@ for i in range(photons):
 
         # if (current['z'] < 0):
         #     answer = math.floor(
-        #         realisation.distanceBetweenPoints(current) / 10 * 100)
+        #         realisation.distanceBetweenPoints(current) / x_max * len(w_arr))
+        #     print(current)
         #     if (answer < 100):
-        #         arr[answer] += w
+        #         w_arr[answer] += w
         #     break
-        # if (math.floor(current['z']) == slice):
-        #     array_current.append(
-        #         {'x': math.floor(current['x']), 'y': math.floor(current['y']), 'z': math.floor(current['z']), 'w': w})
+
 # График передвижения фотона в среде по точкам
 # animate.graphOfPointsOfDifferentColors('point')
 # График передвижения фотона в среде линиями
 # animate.graphOfPointsOfDifferentColors('line')
 # Гистограмма кол-во фотонов к расстоянию
-# animate.diagramm(arr, 0.1, 'count')
+# animate.diagramm(w_arr, 0.1, 'count')
 # Гистограмма площадь кольца к расстоянию
-# seq = realisation.calcSquare(arr)
+# seq = realisation.calcSquare(w_arr)
 # animate.diagramm(seq, 0.1, 'square')
 
 # vox.voxVisualizerCub(size, array_current)
-vox.voxVisualizer(maks, mas)
+vox.voxVisualizer(maksZ, masZ, 'z')
+vox.voxVisualizer(maksY, masY, 'y')
