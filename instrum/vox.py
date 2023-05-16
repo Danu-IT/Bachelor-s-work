@@ -73,7 +73,7 @@ def voxVisualizer(maks, array_current, param):
         for [ax, cmap] in zip(axs, cms):
             psm = ax.pcolormesh(
                 data, cmap=cmap, rasterized=True,
-                norm=log, )
+                norm=log)
             fig.colorbar(psm, ax=ax)
         plt.show()
 

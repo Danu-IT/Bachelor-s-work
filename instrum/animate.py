@@ -12,37 +12,35 @@ def diagramm(arr, width, nameY):
     key = []
     for i in range(len(arr)):
         key.append((i * 10) / 100)
-
+    print(arr)
     plt.bar(key, arr, width=width)
     plt.ylabel(nameY)
     plt.xlabel('distance')
     plt.show()
 
 
-def graphDiff(root):
-    list_current_X = []
-    list_current_Y = []
-    list_current_Z = []
-    list_current_I = []
+def lineGraph(arr, root):
+    x_arr = []
 
     with open(root) as f:
         for line in f:
-            current_line = {}
-            line = line.split()
-            current_line['i'] = line[0].split(':')[1]
-            current_line['x'] = line[1].split(':')[1]
-            current_line['y'] = line[2].split(':')[1]
-            current_line['z'] = line[3].split(':')[1]
+            print(line)
+            x_arr.append(line[2: len(line) - 2].split(','))
+    # print(x_arr)
+    # key = []
+    # for i in range(len(arr)):
+    #     key.append((i * 10) / 100)
+    # print(x_arr)
+    # plt.bar(key, x_arr[2], width=0.1)
+    # plt.xlabel('distance')
+    # plt.show()
+    for i in range(len(arr)):
+        key.append((i * 10) / 100)
+    # print(x_arr)
 
-            list_current_X.append(float(current_line['x']))
-            list_current_Y.append(float(current_line['y']))
-            list_current_Z.append(float(current_line['z']))
-            list_current_I.append(int(current_line['i']))
-
-    fig = plt.figure(figsize=(12, 12))
-    ax = fig.add_subplot(projection='3d')
-    ax.plot3D(list_current_X, list_current_Y,
-              list_current_Z, color='red', marker=',')
+    plt.plot(list(reversed(key)), x_arr[0])
+    plt.plot(list(reversed(key)), x_arr[1])
+    plt.plot(list(reversed(key)), x_arr[2])
     plt.show()
 
 
