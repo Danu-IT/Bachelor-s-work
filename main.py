@@ -102,7 +102,7 @@ seq = realisation.calcSquare(w_arr)
 # print(seq)
 str = ','.join(map(str, seq))
 print(str)
-result.write('3:' + str + '\n')
+#result.write('3:' + str + '\n')
 # animate.diagramm(seq, 0.1, 'square')
 animate.lineGraph(seq, 'outputs/result.txt')
 
