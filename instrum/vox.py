@@ -1,12 +1,14 @@
 import math
+import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.colors import ListedColormap
 import time
+from matplotlib.animation import FuncAnimation
 
 
-def coordinatesСartesian(size):
+def coordinatesCartesian(size):
     array_voxel = []
     for x in range(size):  # Массив координат
         for y in range(size):
@@ -67,7 +69,7 @@ def voxVisualizer(maks, array_current, param):
         data = array_current
 
         log = cm.scale.get_scale_names()[0]
-        print(log)
+        #print(log)
         fig, axs = plt.subplots(1, 2, figsize=(
             18, 9), constrained_layout=True)
         for [ax, cmap] in zip(axs, cms):
@@ -75,6 +77,7 @@ def voxVisualizer(maks, array_current, param):
                 data, cmap=cmap, rasterized=True,
                 norm=log, )
             fig.colorbar(psm, ax=ax)
+        #plt.xlim(-100, 100)
         plt.show()
 
     plot_examples([viridis, newcmp])
