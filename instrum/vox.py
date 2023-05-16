@@ -139,4 +139,3 @@ def voxVisualizer(maks, array_current, param):
 #     ax.voxels(x, y, z, filled_2, facecolors=fcolors_2, edgecolors=ecolors_2)
 
 #     plt.show()
-
