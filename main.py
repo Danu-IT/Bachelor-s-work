@@ -5,16 +5,16 @@ import instrum.animation as animation
 from concurrent.futures import ProcessPoolExecutor
 import math
 
-mu_s = 10                   # коэффициентом рассеяния
-mu_a = 0.9                 # коэффициентом поглощения
-g = 0.9                   # параметр анизатропии
-photons = 10000              # фотоны
-size = 15                  # граница
-left = - (size / 2)
-right = (size / 2)
+mu_s = 30  # коэффициентом рассеяния
+mu_a = 0.3  # коэффициентом поглощения
+g = 0.5  # параметр анизатропии
+photons = 10000  # фотоны
+size = 15  # граница
+left = -(size / 2)
+right = size / 2
 x_max = 10
 
-array_current = []          # массив координат
+array_current = []  # массив координат
 slice = 5
 sliceThinkness = 0.5
 a = 100
@@ -33,16 +33,20 @@ w_arr = []
 for i in range(100):
     w_arr.append(0)
 
-f = open('outputs/current.txt', 'w')
-result = open('outputs/result.txt', 'a')
+f = open("outputs/current.txt", "w")
+result = open("outputs/result.txt", "a")
 
 for i in range(photons):
     # Действительные координаты
-    current = {'x': 0, 'y': 0, 'z': 0}
+    current = {"x": 0, "y": 0, "z": 0}
     # Изменение направления фотона
-    direction_of_movement = {'Yx': 0, 'Yy': 0, 'Yz': 1}
+    direction_of_movement = {"Yx": 0, "Yy": 0, "Yz": 1}
     w = 1  # Вес фотона
-    while (left <= current['x'] < right and left <= current['y'] < right and -1 <= current['z'] < size):
+    while (
+        left <= current["x"] < right
+        and left <= current["y"] < right
+        and -1 <= current["z"] < size
+    ):
         # Вычисление углов ϕ и θ
         [fi, teta] = realisation.corners(g)
         # Вычисление свободного пробега l
@@ -50,44 +54,58 @@ for i in range(photons):
         # Изменение направления движения
 
         [x, y, z] = realisation.changing_the_direction_of_movement(
-            direction_of_movement, fi, teta)
+            direction_of_movement, fi, teta
+        )
 
-        direction_of_movement['Yx'] = x
-        direction_of_movement['Yy'] = y
-        direction_of_movement['Yz'] = z
+        direction_of_movement["Yx"] = x
+        direction_of_movement["Yy"] = y
+        direction_of_movement["Yz"] = z
 
-        current['x'] = current['x'] + (l * direction_of_movement['Yx'])
-        current['y'] = current['y'] + (l * direction_of_movement['Yy'])
-        current['z'] = current['z'] + (l * direction_of_movement['Yz'])
-        current['i'] = i + 1
+        current["x"] = current["x"] + (l * direction_of_movement["Yx"])
+        current["y"] = current["y"] + (l * direction_of_movement["Yy"])
+        current["z"] = current["z"] + (l * direction_of_movement["Yz"])
+        current["i"] = i + 1
 
-        if (current['y'] > -sliceThinkness and current['y'] < sliceThinkness and abs(current['x']) < x_max and abs(current['z']) < x_max and (current['z']) > 0):
-            indeks1 = math.floor(((current['x'] - 10) / x_max) * 100)
-            indeks2 = math.floor((current['z'] / x_max) * 100)
+        if (
+            current["y"] > -sliceThinkness
+            and current["y"] < sliceThinkness
+            and abs(current["x"]) < x_max
+            and abs(current["z"]) < x_max
+            and (current["z"]) > 0
+        ):
+            indeks1 = math.floor(((current["x"] - 10) / x_max) * 100)
+            indeks2 = math.floor((current["z"] / x_max) * 100)
             masY[indeks2][indeks1] += w
-            if (maksY < masY[indeks2][indeks1]):
+            if maksY < masY[indeks2][indeks1]:
                 maksY = masY[indeks2][indeks1]
 
-        if (current['z'] > -sliceThinkness and current['z'] < sliceThinkness and abs(current['x']) < x_max and abs(current['y']) < x_max):
-            indeks1 = math.floor(((current['x'] - 10) / x_max) * 100)
-            indeks2 = math.floor(((current['y'] - 10) / x_max) * 50)
+        if (
+            current["z"] > -sliceThinkness
+            and current["z"] < sliceThinkness
+            and abs(current["x"]) < x_max
+            and abs(current["y"]) < x_max
+        ):
+            indeks1 = math.floor(((current["x"] - 10) / x_max) * 100)
+            indeks2 = math.floor(((current["y"] - 10) / x_max) * 50)
             masZ[indeks2][indeks1] += w
-            if (maksZ < masZ[indeks2][indeks1]):
+            if maksZ < masZ[indeks2][indeks1]:
                 maksZ = masZ[indeks2][indeks1]
 
-        if (i <= 50):
+        if i <= 50:
             f.write(
-                f"i:{current['i']}  x:{current['x']}  y:{current['y']}  z:{current['z']}\n")
+                f"i:{current['i']}  x:{current['x']}  y:{current['y']}  z:{current['z']}\n"
+            )
 
         w = realisation.photon_weight(w, mu_s, mu_a)
-        if (w < 0.0001):
+        if w < 0.0001:
             # print('Фотон поглощен')
             break
 
-        if (current['z'] < 0):
+        if current["z"] < 0:
             answer = math.floor(
-                realisation.distanceBetweenPoints(current) / x_max * 100)
-            if (answer < 100):
+                realisation.distanceBetweenPoints(current) / x_max * 100
+            )
+            if answer < 100:
                 w_arr[answer] += w
             break
 # График передвижения фотона в среде по точкам
@@ -99,12 +117,13 @@ for i in range(photons):
 
 # Гистограмма площадь кольца к расстоянию
 seq = realisation.calcSquare(w_arr)
-# print(seq)
-str = ','.join(map(str, seq))
-print(str)
-result.write('3:' + str + '\n')
-# animate.diagramm(seq, 0.1, 'square')
-animate.lineGraph(seq, 'outputs/result.txt')
+
+
+# str = ",".join(map(str, seq))
+# result.write("3:" + str + "\n")
+
+# animate.diagramm(seq, 0.1, "square")
+animate.lineGraph(seq, "outputs/result.txt")
 
 # vox.voxVisualizerCub(size, array_current)
 # vox.voxVisualizer(maksZ, masZ, 'z')

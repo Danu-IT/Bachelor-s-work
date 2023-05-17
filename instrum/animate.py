@@ -5,17 +5,16 @@ import instrum.realisation as realisation
 import instrum.vox as vox
 import re
 
-style.use('ggplot')
+style.use("ggplot")
 
 
 def diagramm(arr, width, nameY):
     key = []
     for i in range(len(arr)):
         key.append((i * 10) / 100)
-    print(arr)
     plt.bar(key, arr, width=width)
     plt.ylabel(nameY)
-    plt.xlabel('distance')
+    plt.xlabel("distance")
     plt.show()
 
 
@@ -24,23 +23,19 @@ def lineGraph(arr, root):
 
     with open(root) as f:
         for line in f:
-            print(line)
-            x_arr.append(line[2: len(line) - 2].split(','))
-    # print(x_arr)
-    # key = []
-    # for i in range(len(arr)):
-    #     key.append((i * 10) / 100)
-    # print(x_arr)
-    # plt.bar(key, x_arr[2], width=0.1)
-    # plt.xlabel('distance')
-    # plt.show()
+            x_arr.append(line[2 : len(line) - 2].split(","))
+
+    x_arr_number = [[float(i) for i in row] for row in x_arr]
+
+    key = []
     for i in range(len(arr)):
         key.append((i * 10) / 100)
-    # print(x_arr)
 
-    plt.plot(list(reversed(key)), x_arr[0])
-    plt.plot(list(reversed(key)), x_arr[1])
-    plt.plot(list(reversed(key)), x_arr[2])
+    plt.plot(key[0:20], x_arr_number[0][0:20])
+    plt.plot(key[0:20], x_arr_number[1][0:20])
+    plt.plot(key[0:20], x_arr_number[2][0:20])
+    plt.ylabel("square")
+    plt.xlabel("distance")
     plt.show()
 
 
@@ -54,43 +49,53 @@ def graphOfPointsOfDifferentColors(root, view):
         for line in f:
             current_line = {}
             line = line.split()
-            current_line['i'] = line[0].split(':')[1]
-            current_line['x'] = line[1].split(':')[1]
-            current_line['y'] = line[2].split(':')[1]
-            current_line['z'] = line[3].split(':')[1]
+            current_line["i"] = line[0].split(":")[1]
+            current_line["x"] = line[1].split(":")[1]
+            current_line["y"] = line[2].split(":")[1]
+            current_line["z"] = line[3].split(":")[1]
 
-            list_current_X.append(float(current_line['x']))
-            list_current_Y.append(float(current_line['y']))
-            list_current_Z.append(float(current_line['z']))
-            list_current_I.append(int(current_line['i']))
+            list_current_X.append(float(current_line["x"]))
+            list_current_Y.append(float(current_line["y"]))
+            list_current_Z.append(float(current_line["z"]))
+            list_current_I.append(int(current_line["i"]))
 
     fig = plt.figure(figsize=(12, 12))
-    ax = fig.add_subplot(projection='3d')
+    ax = fig.add_subplot(projection="3d")
 
     arr = {}
     itteration = 0
 
     for i in range(len(list_current_I)):
-        if int(list_current_I[i]) >= itteration and itteration + 1 != int(list_current_I[-1]):
+        if int(list_current_I[i]) >= itteration and itteration + 1 != int(
+            list_current_I[-1]
+        ):
             beginning = list_current_I.index(itteration + 1)
             end = list_current_I.index(itteration + 2)
 
             match = False
             while not match:
-                curent_color = '#' + realisation.random_color()
-                match = re.search(
-                    r'^#(?:[0-9a-fA-F]{3}){1,2}$', curent_color)
-            if (view == 'line'):
-                arr[itteration] = ax.plot3D(list_current_X[beginning:end], list_current_Y[beginning:end],
-                                            list_current_Z[beginning:end], color=curent_color, marker=',')
+                curent_color = "#" + realisation.random_color()
+                match = re.search(r"^#(?:[0-9a-fA-F]{3}){1,2}$", curent_color)
+            if view == "line":
+                arr[itteration] = ax.plot3D(
+                    list_current_X[beginning:end],
+                    list_current_Y[beginning:end],
+                    list_current_Z[beginning:end],
+                    color=curent_color,
+                    marker=",",
+                )
             else:
-                arr[itteration] = ax.scatter(list_current_X[beginning:end], list_current_Y[beginning:end],
-                                             list_current_Z[beginning:end], color=curent_color)
+                arr[itteration] = ax.scatter(
+                    list_current_X[beginning:end],
+                    list_current_Y[beginning:end],
+                    list_current_Z[beginning:end],
+                    color=curent_color,
+                )
 
             itteration += 1
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    ax.set_xlabel("X Label")
+    ax.set_ylabel("Y Label")
+    ax.set_zlabel("Z Label")
 
     plt.title("simple 3D current photon coordinates")
 
@@ -101,10 +106,15 @@ def graphOfPointsOfDifferentColors(root, view):
         photonlist.append(value)
         countlist.append(key)
     for i in range(len(countlist)):
-        countlist[i] = 'photon ' + str(countlist[i] + 1)
+        countlist[i] = "photon " + str(countlist[i] + 1)
 
     print(photonlist)
-    plt.legend(tuple(photonlist), tuple(countlist),
-               loc='upper center', ncols=8, fontsize='xx-small')
+    plt.legend(
+        tuple(photonlist),
+        tuple(countlist),
+        loc="upper center",
+        ncols=8,
+        fontsize="xx-small",
+    )
 
     plt.show()
