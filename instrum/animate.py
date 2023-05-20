@@ -59,15 +59,15 @@ def lineGraphHardInom():
 
     with open("outputs/cross-section.txt") as f:
         for line in f:
-            arr = line.split(":")
-            print(str(arr[1:2]))
-            # x_arr.append(line.split(":")[1])
-    plt.plot([10, 20, 30], [12.239905800253629, 25.99889625815505, 29.37343204913785])
-    plt.plot([10, 20, 30], [12.123457131490587, 22.803239683236825, 24.99190295951493])
-    plt.plot([10, 20, 30], [9.848026506005528, 19.154892232217954, 22.349918492063058])
-    plt.ylabel("сигнал одр, отн ед")
-    plt.xlabel("mus")
-    # plt.show()
+            x_arr.append(line[2 : len(line)].split(","))
+
+    x_arr_number = [[float(i) for i in row] for row in x_arr]
+    plt.plot(x_arr_number[0])
+    plt.plot(x_arr_number[1])
+    plt.plot(x_arr_number[2])
+    plt.ylabel("weight")
+    plt.xlabel("size")
+    plt.show()
 
 
 def graphOfPointsOfDifferentColors(root, view):
