@@ -6,9 +6,9 @@ from concurrent.futures import ProcessPoolExecutor
 import math
 
 mu_s = 10  # коэффициентом рассеяния
-mu_a = 0.5  # коэффициентом поглощения
+mu_a = 0.15  # коэффициентом поглощения
 g = 0.9  # параметр анизатропии
-photons = 0000  # фотоны
+photons = 10000  # фотоны
 size = 15  # граница
 left = -(size / 2)
 right = size / 2
@@ -124,7 +124,8 @@ for i in range(photons):
 
 # animate.diagramm(seq, 0.1, "square")
 # animate.lineGraph(seq, "outputs/result.txt")
-animate.lineGraphHard()
+# animate.lineGraphHard()
+animate.lineGraphHardInom()
 
 # vox.voxVisualizerCub(size, array_current)
 # vox.voxVisualizer(maksZ, masZ, "z")

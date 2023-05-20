@@ -54,6 +54,22 @@ def lineGraphHard():
     plt.show()
 
 
+def lineGraphHardInom():
+    x_arr = []
+
+    with open("outputs/cross-section.txt") as f:
+        for line in f:
+            arr = line.split(":")
+            print(str(arr[1:2]))
+            # x_arr.append(line.split(":")[1])
+    plt.plot([10, 20, 30], [12.239905800253629, 25.99889625815505, 29.37343204913785])
+    plt.plot([10, 20, 30], [12.123457131490587, 22.803239683236825, 24.99190295951493])
+    plt.plot([10, 20, 30], [9.848026506005528, 19.154892232217954, 22.349918492063058])
+    plt.ylabel("сигнал одр, отн ед")
+    plt.xlabel("mus")
+    # plt.show()
+
+
 def graphOfPointsOfDifferentColors(root, view):
     list_current_X = []
     list_current_Y = []
