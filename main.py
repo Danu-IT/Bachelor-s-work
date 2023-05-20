@@ -6,7 +6,7 @@ from concurrent.futures import ProcessPoolExecutor
 import math
 
 mu_s = 10  # коэффициентом рассеяния
-mu_a = 0.15  # коэффициентом поглощения
+mu_a = 0.1  # коэффициентом поглощения
 g = 0.9  # параметр анизатропии
 photons = 10000  # фотоны
 size = 15  # граница
@@ -35,6 +35,7 @@ for i in range(100):
 
 f = open("outputs/current.txt", "w")
 result = open("outputs/result.txt", "a")
+cross = open("outputs/cross-section.txt", "a")
 
 for i in range(photons):
     # Действительные координаты
@@ -119,8 +120,8 @@ for i in range(photons):
 # seq = realisation.calcSquare(w_arr)
 
 
-# str = ",".join(map(str, seq))
-# result.write("3:" + str + "\n")
+str = ",".join(map(str, masY[0]))
+cross.write("3:" + str + "\n")
 
 # animate.diagramm(seq, 0.1, "square")
 # animate.lineGraph(seq, "outputs/result.txt")
