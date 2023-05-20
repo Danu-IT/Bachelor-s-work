@@ -71,7 +71,7 @@ def voxVisualizer(maks, array_current, param):
         log = cm.scale.get_scale_names()[0]
         #print(log)
         fig, axs = plt.subplots(1, 2, figsize=(
-            18, 9), constrained_layout=True)
+            20, 6), constrained_layout=True)
         for [ax, cmap] in zip(axs, cms):
             psm = ax.pcolormesh(
                 data, cmap=cmap, rasterized=True,

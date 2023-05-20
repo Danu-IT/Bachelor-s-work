@@ -7,6 +7,15 @@ import random
 def free_run_l(mu_s, mu_a):
     return -math.log(1 - random.random()) * (1 / (mu_s + mu_a))
 
+def begin_corn_create():
+    fi = random.random() * (2 * math.pi)
+    teta = random.random() * math.pi
+
+    cosx = math.sin(fi) * math.sin(teta)
+    cosy = math.cos(fi) * math.sin(teta)
+    cosz = math.cos(teta)
+
+    return {'Yx': cosx, 'Yy': cosy, 'Yz': cosz}
 
 def corners(g):
     fi = (math.pi * 2) * random.random()

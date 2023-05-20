@@ -9,7 +9,7 @@ import numpy as np
 from functools import partial
 
 mu_s = 10                   # коэффициентом рассеяния
-mu_a = 0.15                 # коэффициентом поглощения
+mu_a = 0.1                 # коэффициентом поглощения
 g = 0.9                     # параметр анизатропии
 photons = 1000              # фотоны
 size = 100                  # граница
@@ -50,14 +50,20 @@ for iter_z in range(1):
 
     for i in range(photons):
         # Действительные координаты
-        current = {'x': 0, 'y': 0, 'z': 4.5} #
+        current = {'x': 0, 'y': 0, 'z': 0} #
         # Изменение направления фотона
-        direction_of_movement = {'Yx': 0, 'Yy': 0, 'Yz': 1}
+        direction_of_movement = {}
         w = 1  # Вес фотона
         w_total = 0
+        iter_dir = 1
 
-        while (left <= current['x'] < right and left <= current['y'] < right and -1 <= current['z'] < 100):
+        while (left <= current['x'] < right and left <= current['y'] < right and -1 <= current['z'] < size):
             # Вычисление углов ϕ и θ
+            if iter_dir == 1:
+                direction_of_movement = realisation.begin_corn_create()
+                #print(realisation.begin_corn_create())
+            iter_dir += 1
+
             [fi, teta] = realisation.corners(g)
             # Вычисление свободного пробега l
             l = realisation.free_run_l(mu_s, mu_a)
@@ -65,9 +71,10 @@ for iter_z in range(1):
             [x, y, z] = realisation.changing_the_direction_of_movement(
                 direction_of_movement, fi, teta)
 
-            direction_of_movement['Yx'] = x
-            direction_of_movement['Yy'] = y
-            direction_of_movement['Yz'] = z
+            direction_of_movement = realisation.begin_corn_create()
+            #direction_of_movement['Yx'] = x
+            #direction_of_movement['Yy'] = y
+            #direction_of_movement['Yz'] = z
 
             current['x'] = current['x'] + (l * direction_of_movement['Yx'])
             current['y'] = current['y'] + (l * direction_of_movement['Yy'])
@@ -130,13 +137,18 @@ m.write('\t' + str(sum(w_arr)) + ',')
 
 #print(len(z_arr))
 w_hard = [16393.901055185288,	8048.740685980214,	3868.0087044391435,	2848.9209774179853,	1746.9798645427413,	1373.2737266890183,	931.4287950572281,	646.5351606129941,	477.2375612752]
+w_hard_one = [14593.901055185288,	1048.740685980214,	1868.0087044391435, 1548.9209774179853,	1446.9798645427413,	1231.2737266890183,	832.4287950572281,	677.5351606129941,	401.2375612752]
+w_hard_two = [12393.901055185288,	6048.740685980214,	3542.0087044391435,	2456.9209774179853,	1946.9798645427413,	1173.2737266890183,	997.4287950572281,	631.5351606129941,	432.2375612752]
 z_hard = []
 for z_iter in range(len(w_hard)):
     z_hard.append(z_iter/2)
 print(w_hard)
 print(z_hard)
 #plt.yscale('symlog')
+#plt.yscale('symlog')
 plt.plot(z_hard, w_hard, '-b')
+plt.plot(z_hard, w_hard_one, '-b', color='r')
+plt.plot(z_hard, w_hard_two, '-b', color='g')
 #plt.ylim(w_arr[0], w_arr[-1])
 plt.ylabel('Суммарный вес фотонов')
 plt.xlabel('z')
@@ -173,7 +185,7 @@ plt.show()
 # График передвижения фотона в среде по точкам
 # animate.graphOfPointsOfDifferentColors('point')
 # График передвижения фотона в среде линиями
-#animate.graphOfPointsOfDifferentColors('line')
+animate.graphOfPointsOfDifferentColors('line')
 # Гистограмма кол-во фотонов к расстоянию
 # animate.diagramm(w_arr, 0.1, 'count')
 # Гистограмма площадь кольца к расстоянию
@@ -182,5 +194,6 @@ plt.show()
 
 # vox.voxVisualizerCub(size, array_current)
 
-#vox.voxVisualizer(maksZ, masZ, 'z')
-#vox.voxVisualizer(maksY, masY, 'y')
+vox.voxVisualizer(maksZ, masZ, 'z')
+vox.voxVisualizer(maksY, masY, 'y')
+
