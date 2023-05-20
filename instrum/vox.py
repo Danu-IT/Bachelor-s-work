@@ -52,28 +52,22 @@ def coordinatesСartesian(size):
 
 
 def voxVisualizer(maks, array_current, param):
-    viridis = cm.get_cmap('viridis', 256)
+    viridis = cm.get_cmap("viridis", 256)
     newcolors = viridis(np.linspace(0, 1, 256))
-    pink = np.array([248/256, 24/256, 148/256, 0])
+    pink = np.array([248 / 256, 24 / 256, 148 / 256, 0])
 
     newcolors[:25, :] = pink
     newcmp = ListedColormap(newcolors)
 
     def plot_examples(cms):
-        """
-        helper function to plot two colormaps
-        """
         np.random.seed(19680801)
         data = array_current
 
         log = cm.scale.get_scale_names()[0]
         print(log)
-        fig, axs = plt.subplots(1, 2, figsize=(
-            18, 9), constrained_layout=True)
+        fig, axs = plt.subplots(1, 2, figsize=(18, 9), constrained_layout=True)
         for [ax, cmap] in zip(axs, cms):
-            psm = ax.pcolormesh(
-                data, cmap=cmap, rasterized=True,
-                norm=log)
+            psm = ax.pcolormesh(data, cmap=cmap, rasterized=True, norm=log)
             fig.colorbar(psm, ax=ax)
         plt.show()
 

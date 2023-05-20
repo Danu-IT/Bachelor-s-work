@@ -5,10 +5,10 @@ import instrum.animation as animation
 from concurrent.futures import ProcessPoolExecutor
 import math
 
-mu_s = 30  # коэффициентом рассеяния
-mu_a = 0.3  # коэффициентом поглощения
-g = 0.5  # параметр анизатропии
-photons = 10000  # фотоны
+mu_s = 10  # коэффициентом рассеяния
+mu_a = 0.5  # коэффициентом поглощения
+g = 0.9  # параметр анизатропии
+photons = 0000  # фотоны
 size = 15  # граница
 left = -(size / 2)
 right = size / 2
@@ -116,15 +116,16 @@ for i in range(photons):
 # animate.diagramm(w_arr, 0.1, 'count')
 
 # Гистограмма площадь кольца к расстоянию
-seq = realisation.calcSquare(w_arr)
+# seq = realisation.calcSquare(w_arr)
 
 
 # str = ",".join(map(str, seq))
 # result.write("3:" + str + "\n")
 
 # animate.diagramm(seq, 0.1, "square")
-animate.lineGraph(seq, "outputs/result.txt")
+# animate.lineGraph(seq, "outputs/result.txt")
+animate.lineGraphHard()
 
 # vox.voxVisualizerCub(size, array_current)
-# vox.voxVisualizer(maksZ, masZ, 'z')
+# vox.voxVisualizer(maksZ, masZ, "z")
 # vox.voxVisualizer(maksY, masY, 'y')

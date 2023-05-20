@@ -31,11 +31,26 @@ def lineGraph(arr, root):
     for i in range(len(arr)):
         key.append((i * 10) / 100)
 
-    plt.plot(key[0:20], x_arr_number[0][0:20])
-    plt.plot(key[0:20], x_arr_number[1][0:20])
-    plt.plot(key[0:20], x_arr_number[2][0:20])
+    x_0 = x_arr[0][5]
+    x_1 = x_arr[1][5]
+    x_2 = x_arr[2][5]
+
+    print(x_0, x_1, x_2)
+
+    plt.plot(key, x_arr_number[0])
+    plt.plot(key, x_arr_number[1])
+    plt.plot(key, x_arr_number[2])
     plt.ylabel("square")
     plt.xlabel("distance")
+    plt.show()
+
+
+def lineGraphHard():
+    plt.plot([10, 20, 30], [12.239905800253629, 25.99889625815505, 29.37343204913785])
+    plt.plot([10, 20, 30], [12.123457131490587, 22.803239683236825, 24.99190295951493])
+    plt.plot([10, 20, 30], [9.848026506005528, 19.154892232217954, 22.349918492063058])
+    plt.ylabel("сигнал одр, отн ед")
+    plt.xlabel("mus")
     plt.show()
 
 
